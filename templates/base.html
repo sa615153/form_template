@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+      <head>
+        {% if title %}
+        <title>{{ title }} - microblog</title>
+        {% else %}
+        <title>microblog</title>
+        {% endif %}
+      </head>
+      <body>
+      <!--
+        <div>Microblog:
+        <a href="{{ url_for('index') }}">Home</a>
+        {% if not current_user.is_authenticated %}
+        | <a href="{{ url_for('login') }}">Log in</a>
+        or <a href="{{ url_for('sign_up') }}">Sign up</a>
+        {% else %}
+        | <a href="{{ url_for('logout') }}">Logout</a>
+        {% endif %}
+        </div>
+        -->
+      <div>Microblog:
+    <a href="{{ url_for('index') }}">Home</a>
+    {% if not current_user.is_authenticated %}
+    | <a href="{{ url_for('login') }}">Log in</a>
+    or <a href="{{ url_for('sign_up') }}">Sign up</a>
+    {% else %}
+    | <a href="{{ url_for('users', user_id = current_user.id) }}">Profile</a>
+    | <a href="{{ url_for('logout') }}">Logout</a>
+
+    {% endif %}
+</div>
+        <hr>
+
+        <!--flash-->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li>{{ message }} </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+
+
+        <!--welcome user-->
+        {% block content %}{% endblock %}
+        {% if not current_user.is_authenticated %}
+        <h1>Hi, Guys!</h1>
+        {% else %}
+        <h1>Welcome back, {{ current_user.nickname }}!</h1>
+        {% endif %}
+      </body>
+{% block js %}{% endblock %}
+</html>
